@@ -45,7 +45,9 @@ class AdController extends AbstractController
                 foreach($ad->getImages() as $image) {
                     $image->setAd($ad);
                     $manager->persist($image);
-                }              
+                } 
+                
+                $ad->setAuthor($this->getUser());
                 $manager->persist($ad);
                 $manager->flush();
 
@@ -62,9 +64,26 @@ class AdController extends AbstractController
             return $this->render('ad/new.html.twig',[
                 'form' => $form->createView()
             ]);
+            
     
     
             }
+
+    /**
+     * Permet d'afficher  seule annonce
+     * 
+     * @Route("/ads/{slug}", name="ads_show")
+     * @return Response
+     */
+
+    public function show (Ad $ad){
+        
+        return $this->render('ad/show.html.twig',[
+            'ad' =>$ad
+
+        ]);
+
+      }
             /**
              * Permet d'afficher le formulaire d'edition
              * 
@@ -100,20 +119,7 @@ class AdController extends AbstractController
             ]);
             }
 
-    /**
-     * Permet d'afficher  seule annonce
-     * 
-     * @Route("/ads/{slug}", name="ads_show")
-     * @return Response
-     */
-
-    public function show (Ad $ad){
-        
-        return $this->render('ad/show.html.twig',[
-            'ad' =>$ad
-
-        ]);
-      }
+    
     
         
     }
