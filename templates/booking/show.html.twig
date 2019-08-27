@@ -12,7 +12,7 @@
 
 
 <div class="container">
-     <h1>Votre réservation(n°{{booking.id}})</h1>
+     <h1 class="my-5">Votre réservation(n°{{booking.id}})</h1>
      
 
 {% if app.request.query.get('withAlert') %}
@@ -39,17 +39,17 @@
                 <h2>Détails</h2>
                 <dl class="row">
                     <dt class="col-md-4">Numéro</dt>
-                     <dt class="col-md-8">{{booking.id}}</dt>
+                     <dd class="col-md-8">{{booking.id}}</dd>
                      <dt class="col-md-4">Date d'arrivée</dt>
-                     <dt class="col-md-8">{{booking.startDate | date('d/m/Y')}}</dt>
+                     <dd class="col-md-8">{{booking.startDate | date('d/m/Y')}}</dd>
                      <dt class="col-md-4">Date de départ</dt>
-                     <dt class="col-md-8">{{booking.endDate | date('d/m/Y')}}</dt>
+                     <dd class="col-md-8">{{booking.endDate | date('d/m/Y')}}</dd>
                      <dt class="col-md-4">Nombre de nuits</dt>
-                     <dt class="col-md-8">{{ booking.duration }}</dt>
+                     <dd class="col-md-8">{{ booking.duration }}</dd>
                      <dt class="col-md-4">Montant total</dt>
-                     <dt class="col-md-8">{{booking.amount}} &euro; </dt>
+                     <dd class="col-md-8">{{booking.amount | number_format(2,',',' ')}} &euro; </dd>
                      <dt class="col-md-4">Commentaire</dt>
-                     <dt class="col-md-8">{{booking.comment }}</dt>
+                     <dd class="col-md-8">{{booking.comment | default('Aucun commentaire')}}</dd>
                    
 
                 </dl>
@@ -70,15 +70,49 @@
                         <span class="badge badge-primary">{{author.ads|length}}annonces</span>
                     </div>
                 </div>
-                {{author.description |raw}}
+                {{author.description | raw}}
 
                 <a href="{{ path("user_show", {'slug':author.slug}) }}" class="btn btn-primary">Plus d'infos sur {{author.firstName }}</a>
-            </div>
-        </div>
+             </div>
+            
+              <div class="alert alert-light" id="comment">
+                 <h2 class="alert-heading"> Votre avis compte ! </h2>
+
+                {% if date() > date(booking.endDate) %}
+                {% set comment = booking.ad.commentFromAuthor(app.user) %}
+                 {% if comment is not null %}
+                 <blockquote>
+                 {{comment.content}}
+
+                 
+                 
+                 </blockquote>
+
+                 <strong>Note: </strong> {% include 
+                 'partials/rating.html.twig' with {'rating' : comment.rating } %}
+
+
+                 {% else %}
+                 {{ form_start(form)}}
+                 {{ form_widget(form)}}
+                 <button type="submit" class="btn btn-success">Confirmer !</button>
+                 {{ form_end(form)}}
+
+                 {% endif %}
+
+                {% else %}
+
+                 <p>Vous ne pourrez pas noter cette annonce, ce voyage ne sera pas complet</p>
+                     
+                 {% endif %}
+
+              </div>
+              </div>
 
             <div class="col">
               <div class="alert alert-light">
                 <h2 class="alert-heading">Votre hébergement</h2>
+                
 
                 <h4>
                     <a href="{{ path('ads_show', {'slug' :ad.slug})}}">{{ad.title}}</a>

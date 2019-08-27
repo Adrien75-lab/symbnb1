@@ -34,7 +34,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Attention, la date d'arrivée doit être au bon format !")
-     * @Assert\GreaterThan("today", message="La date d'arrivée doit être ultérieur à la date d'aujourd'hui !")
+     * @Assert\GreaterThan("today", message="La date d'arrivée doit être ultérieur à la date d'aujourd'hui !", groups={"front"})
      */
     private $startDate;
 
@@ -64,6 +64,7 @@ class Booking
      * Callback appel" a chaque fois qu'on créé une réservation
      * 
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void
      */
@@ -74,7 +75,7 @@ class Booking
         }
         if(empty($this->amount)){
             // prix de l'annonce * nombre de jour
-            $this->amount=$this->ad->getPrice()* $this->getDuration();
+            $this->amount=$this->ad->getPrice() * $this->getDuration();
         }
     }
 
