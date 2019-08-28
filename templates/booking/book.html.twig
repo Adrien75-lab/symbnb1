@@ -67,13 +67,11 @@ $(document).ready(function(){
 });
 
 
-/*  function calculateAmount(){
+    function calculateAmount(){
     //On chope les dates
-    const endDate = new Date($('#booking_endDate').val().replace(/(\d+)\/(\d+)\/(\d
-    {4})/,'$3-$2-$1'));
+    const endDate = new Date($('#booking_endDate').val().replace(/(\d+)\/(\d+)\/(\d{4})/,'$3-$2-$1'));
    
-    const startDate = new Date($('#booking_startDate').val().replace(\d+)\/(\d+)\/(\d
-    {4})/,'$3-$2-$1'));
+    const startDate = new Date($('#booking_startDate').val().replace(/(\d+)\/(\d+)\/(\d {4})/,'$3-$2-$1'));
 
     if(startDate && endDate && startDate < endDate){
     const DAY_TIME = 24*60*60*1000;
@@ -84,7 +82,7 @@ $(document).ready(function(){
     $('#amount').text(amount.toLocaleString('fr-FR'));
     }
 }
-/*
+
 
 </script>
 

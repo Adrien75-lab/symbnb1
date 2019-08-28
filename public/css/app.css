@@ -29,7 +29,7 @@ div.ad-title h1, div.ad-title p{
 .avatar {
     max-width : 128px;
     max-height : 128px;
-    border-radius : 50%
+    border-radius : 50%;
 }
 .avatar-medium {
     max-width: 64px;
@@ -38,12 +38,12 @@ div.ad-title h1, div.ad-title p{
 
 .avatar-mini{
 max-width: 24px;
-max-height:24px;
+max-height: 24px;
 
 }
 
 .avatar-micro {
-max-width:16px;
+max-width: 16px;
 max-height: 16px;
 
 }
